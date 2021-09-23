@@ -1,5 +1,4 @@
-
-# globorisk
+# globorisk <img src="man/figures/logo.png" align="right" width="180" height="180"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -12,6 +11,13 @@ You can install the released version of globorisk from [CRAN](https://CRAN.R-pro
 
 ``` r
 install.packages("globorisk")
+```
+
+You can also install the latest development version from the Github repository.
+
+``` r
+# install.package("devtools")
+devtools::install_github("boyercb/globorisk")
 ```
 
 ## Example
