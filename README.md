@@ -2,6 +2,8 @@
 
 <!-- badges: start -->
 <!-- badges: end -->
+The `globorisk` package calculates risk estimates for cardiovascular disease
+in R using Globorisk.
 
 Globorisk is a cardiovascular disease risk score that predicts risk of
 heart attack or stroke in healthy individuals (those who have not yet had a
@@ -87,6 +89,20 @@ globorisk(
 )
 
 
-
 ```
+
+# References
+Ueda, Peter, Mark Woodward, Yuan Lu, Kaveh Hajifathalian, Rihab Al-Wotayan,
+Carlos A. Aguilar-Salinas, Alireza Ahmadvand, et al. "Laboratory-Based and
+Office-Based Risk Scores and Charts to Predict 10-Year Risk of Cardiovascular
+Disease in 182 Countries: A Pooled Analysis of Prospective Cohorts and Health
+Surveys." The Lancet Diabetes & Endocrinology 5, no. 3 (March 1, 2017):
+196–213. https://doi.org/10.1016/S2213-8587(17)30015-3.
+
+Hajifathalian, Kaveh, Peter Ueda, Yuan Lu, Mark Woodward, Alireza Ahmadvand,
+Carlos A Aguilar-Salinas, Fereidoun Azizi, et al. “A Novel Risk Score to
+Predict Cardiovascular Disease Risk in National Populations (Globorisk): A
+Pooled Analysis of Prospective Cohorts and Health Examination Surveys.” The
+Lancet Diabetes & Endocrinology 3, no. 5 (May 1, 2015): 339–55.
+https://doi.org/10.1016/S2213-8587(15)00081-9.
 
