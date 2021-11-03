@@ -26,7 +26,7 @@ globorisk(
 
 \item{sbp}{systolic blood pressure (mmHg)}
 
-\item{tc}{total cholesterol (mg/dL)}
+\item{tc}{total cholesterol (mmol/L)}
 
 \item{dm}{diabetes mellitus (0 = no, 1 = yes)}
 

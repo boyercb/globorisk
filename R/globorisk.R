@@ -6,7 +6,7 @@
 #' @param sex biological sex (0 = man, 1 = woman)
 #' @param age patient age (years)
 #' @param sbp systolic blood pressure (mmHg)
-#' @param tc total cholesterol (mg/dL)
+#' @param tc total cholesterol (mmol/L)
 #' @param dm diabetes mellitus (0 = no, 1 = yes)
 #' @param smk current smoker (0 = no, 1 = yes)
 #' @param bmi body mass index (kg/m^2)
