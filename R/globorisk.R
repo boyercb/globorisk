@@ -132,7 +132,7 @@ globorisk <- function(
     sex = as.integer(sex),
     year = as.integer(year),
     age = as.integer(trunc(age)),
-    agec = as.integer(trunc(age / 5) - 7),
+    agec = as.integer(ifelse(age < 85, trunc(age / 5) - 7, 10)),
     sbp = sbp / 10,
     tc = tc,
     dm = as.integer(dm),
@@ -199,6 +199,13 @@ globorisk <- function(
         )
 
     }
+
+    # adjust for changes in age category as you project into the future
+    d[[paste0("cvd_", t)]] <- ifelse(
+      trunc((d$age + t)/5 - 7) > d$agec,
+      d[[paste0("lead", trunc((d$age + t)/5 - 7) - d$agec ,"_cvd_", t)]],
+      d[[paste0("cvd_", t)]]
+    )
 
     # calculate the hazard rate by multiplying by base rate
     d[[paste0('hzcvd_', t)]] <-

@@ -78,8 +78,25 @@ cvdr <-
     cvd_9 = lead(cvd, 9)
   ) %>%
   ungroup() %>%
+  group_by(iso, type, sex, year) %>%
+  arrange(agec) %>%
+  mutate(
+    across(cvd_0:cvd_9, lead, n = 1, .names = "lead1_{.col}"),
+    across(cvd_0:cvd_9, lead, n = 2, .names = "lead2_{.col}")
+  ) %>%
+  ungroup() %>%
+  arrange(iso, type, sex, agec, year) %>%
   filter(2000 <= year & year <= 2020) %>%
-  select(iso, year, type, sex, agec, cvd_0:cvd_9)
+  select(
+    iso,
+    year,
+    type,
+    sex,
+    agec,
+    cvd_0:cvd_9,
+    lead1_cvd_0:lead1_cvd_9,
+    lead2_cvd_0:lead2_cvd_9
+  )
 
 
 # Risk factor levels ------------------------------------------------------
