@@ -63,39 +63,42 @@ cvdr <-
     sex = as.numeric(str_extract(file, "[01]")),
     cvd = if_else(!is.na(fnfchdstr_f), fnfchdstr_f, fatalchdstr),
   ) %>%
-  group_by(iso, type, sex, agec) %>%
-  arrange(year) %>%
-  mutate(
-    cvd_0 = cvd,
-    cvd_1 = lead(cvd, 1),
-    cvd_2 = lead(cvd, 2),
-    cvd_3 = lead(cvd, 3),
-    cvd_4 = lead(cvd, 4),
-    cvd_5 = lead(cvd, 5),
-    cvd_6 = lead(cvd, 6),
-    cvd_7 = lead(cvd, 7),
-    cvd_8 = lead(cvd, 8),
-    cvd_9 = lead(cvd, 9)
+  select(iso, year, type, sex, agec, cvd)
+
+cvdr_grd <-
+  expand_grid(
+    iso = unique(cvdr$iso),
+    sex = unique(cvdr$sex),
+    type = unique(cvdr$type),
+    age = seq(40, 85),
+    base_year = 2000:2020,
+    year = 2000:2029
   ) %>%
-  ungroup() %>%
-  group_by(iso, type, sex, year) %>%
-  arrange(agec) %>%
   mutate(
-    across(cvd_0:cvd_9, lead, n = 1, .names = "lead1_{.col}"),
-    across(cvd_0:cvd_9, lead, n = 2, .names = "lead2_{.col}")
+    agec = as.integer(ifelse(age < 85, trunc(age / 5) - 7, 10)),
+    agec_j = ifelse(
+      trunc((year - base_year) / 5) < 1,
+      agec,
+      agec + trunc((year - base_year) / 5)
+    )
+  )
+
+cvdr <-
+  left_join(
+    cvdr_grd,
+    cvdr,
+    by = c("iso", "sex", "type", "year", "agec_j" = "agec")
   ) %>%
-  ungroup() %>%
-  arrange(iso, type, sex, agec, year) %>%
-  filter(2000 <= year & year <= 2020) %>%
-  select(
-    iso,
-    year,
-    type,
-    sex,
-    agec,
-    cvd_0:cvd_9,
-    lead1_cvd_0:lead1_cvd_9,
-    lead2_cvd_0:lead2_cvd_9
+  mutate(
+    i = year - base_year,
+    year = base_year
+  ) %>%
+  select(-agec_j, -base_year) %>%
+  filter(i >= 0) %>%
+  pivot_wider(
+    names_from = i,
+    names_prefix = "cvd_",
+    values_from = cvd
   )
 
 

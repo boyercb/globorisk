@@ -144,22 +144,22 @@ globorisk <- function(
   # use time minus one
   time <- time - 1
 
-  # merge baseline cvd rates
-  d <-
-    merge(
-      d,
-      cvdr,
-      by = c("iso", "year", "sex", "agec"),
-      all.x = TRUE,
-      sort = FALSE
-    )
-
   # merge mean risk factor levels
   d <-
     merge(
       d,
       rf,
       by = c("iso", "sex", "agec"),
+      all.x = TRUE,
+      sort = FALSE
+    )
+
+  # merge baseline cvd rates
+  d <-
+    merge(
+      d,
+      cvdr,
+      by = c("iso", "year", "sex", "age"),
       all.x = TRUE,
       sort = FALSE
     )
@@ -199,13 +199,6 @@ globorisk <- function(
         )
 
     }
-
-    # adjust for changes in age category as you project into the future
-    d[[paste0("cvd_", t)]] <- ifelse(
-      trunc((d$age + t)/5 - 7) > d$agec,
-      d[[paste0("lead", trunc((d$age + t)/5 - 7) - d$agec ,"_cvd_", t)]],
-      d[[paste0("cvd_", t)]]
-    )
 
     # calculate the hazard rate by multiplying by base rate
     d[[paste0('hzcvd_', t)]] <-
