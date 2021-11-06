@@ -21,7 +21,7 @@ Authors@R: c(
            family = "Ueda",
            role = c("aut"),
            email = "peter.ueda@ki.se",
-           comment = c(ORCID = "0000-0002-3275-8743"))),
+           comment = c(ORCID = "0000-0002-3275-8743")),
     person(given = "Rodrigo",
            family = "Carrillo Larco",
            role = c("aut"),
