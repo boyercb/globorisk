@@ -77,9 +77,9 @@ cvdr_grd <-
   mutate(
     agec = as.integer(ifelse(age < 85, trunc(age / 5) - 7, 10)),
     agec_j = ifelse(
-      trunc((year - base_year) / 5) < 1,
+      trunc((age + year - base_year) / 5) - 7 <= agec,
       agec,
-      agec + trunc((year - base_year) / 5)
+      trunc((age + year - base_year) / 5) - 7
     )
   )
 
