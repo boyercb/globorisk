@@ -159,7 +159,7 @@ globorisk <- function(
     merge(
       d,
       cvdr,
-      by = c("iso", "year", "sex", "age"),
+      by = c("iso", "year", "sex", "agec", "age"),
       all.x = TRUE,
       sort = FALSE
     )
