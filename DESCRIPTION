@@ -1,5 +1,5 @@
 Package: globorisk
-Title: What the Package Does (One Line, Title Case)
+Title: Global CVD Risk Calculator
 Version: 0.0.0.9000
 Authors@R: c(
     person(given = "Christopher",
@@ -21,8 +21,21 @@ Authors@R: c(
            family = "Ueda",
            role = c("aut"),
            email = "peter.ueda@ki.se",
-           comment = c(ORCID = "0000-0002-3275-8743")))
-Description: What the package does (one paragraph).
+           comment = c(ORCID = "0000-0002-3275-8743"))),
+    person(given = "Rodrigo",
+           family = "Carrillo Larco",
+           role = c("aut"),
+           email = "r.carrillo-larco@imperial.ac.uk",
+           comment = c(ORCID = "0000-0002-2090-1856")))
+Description: This package implements the Globorisk risk calculator. Globorisk is
+the first cardiovascular disease risk score that predicts risk of heart attack 
+or stroke in healthy individuals (those who havenot yet had a heart attack or 
+stroke) for all countries in the world. It uses information on a person’s
+country of residence, age, sex, smoking, diabetes, blood pressure and 
+cholesterol to predict the chance that they would have a heart attack or stroke
+in the next 10 years. If the person does not have a recent diabetes or 
+cholesterol test, they can use the office-based version of Globorisk which is
+based on body weight and height instead.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
