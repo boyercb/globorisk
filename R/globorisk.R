@@ -128,6 +128,7 @@ globorisk <- function(
 
   # create data frame
   d <- data.frame(
+    id = 1:length(iso),
     iso = toupper(iso),
     sex = as.integer(sex),
     year = as.integer(year),
@@ -163,6 +164,8 @@ globorisk <- function(
       all.x = TRUE,
       sort = FALSE
     )
+
+  d <- d[order(d$id), ]
 
   # center values using population mean risk factor levels
   for (var in c("sbp", "tc", "dm", "smk", "bmi")) {
@@ -214,6 +217,9 @@ globorisk <- function(
 
   # calculate cumulative risk
   d$globorisk <- 1 - d$totsurv
+
+  d$id <- NULL
+  row.names(d) <- NULL
 
   ret <- switch(
     type,
