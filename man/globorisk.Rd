@@ -16,11 +16,12 @@ globorisk(
   year,
   time = 10,
   version = c("lab", "office", "fatal"),
-  type = "risk"
+  type = "risk",
+  updated_lac = FALSE
 )
 }
 \arguments{
-\item{sex}{biological sex (0 = man, 1 = woman)}
+\item{sex}{patient sex (0 = man, 1 = woman)}
 
 \item{age}{patient age (years)}
 
@@ -43,6 +44,8 @@ globorisk(
 \item{version}{calculator version, options are 'lab', 'office', or 'fatal'}
 
 \item{type}{output type, options are 'risk', 'survival', or 'all'}
+
+\item{updated_lac}{use updated risk equations for LAC countries?}
 }
 \value{
 If type = 'risk' output is a vector with estimated 10-year risk for
@@ -69,6 +72,22 @@ globorisk(
   version = "lab",
   type = "risk"
 )
+
+# globorisk LAC test
+globorisk(
+  sex = c(1, 0, 0),
+  age = c(52, 60, 65),
+  sbp = c(140, 160, 170),
+  tc = c(4.5, 5, 5),
+  dm = c(1, 1, 1),
+  smk = c(0, 1, 1),
+  iso = c("ARG", "BLZ", "CHL"),
+  year = c(2000, 2000, 2020),
+  version = "lab",
+  type = "risk",
+  updated_lac = TRUE
+)
+
 }
 \references{
 Ueda, Peter, Mark Woodward, Yuan Lu, Kaveh Hajifathalian, Rihab Al-Wotayan,
