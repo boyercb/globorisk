@@ -34,6 +34,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -46,25 +48,19 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">globorisk</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.0.0.9000</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
 <li>
-  <a href="index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="reference/index.html">Reference</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/boyercb/globorisk/">
+  <a href="https://github.com/boyercb/globorisk/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,30 +78,29 @@
       </header><div class="row">
   <div class="contents col-md-9">
 
-<div id="globorisk-" class="section level1">
-<div class="page-header"><h1 class="hasAnchor">
-<a href="#globorisk-" class="anchor"></a>globorisk <img src="reference/figures/logo.png" align="right" width="180" height="180">
+<div class="section level1">
+<div class="page-header"><h1 id="globorisk-">globorisk <img src="reference/figures/logo.png" align="right" width="180" height="180"><a class="anchor" aria-label="anchor" href="#globorisk-"></a>
 </h1></div>
 <!-- badges: start -->
 <!-- badges: end -->
 <p>The <code>globorisk</code> package calculates risk estimates for cardiovascular disease in R using Globorisk.</p>
 <p>Globorisk is a cardiovascular disease risk score that predicts risk of heart attack or stroke in healthy individuals (those who have not yet had a heart attack or stroke) in 182 countries. It uses information on a person’s country of residence, age, sex, smoking, diabetes, blood pressure and cholesterol to predict the chance that they would have a heart attack or stroke in the next 10 years. If the person does not have a recent diabetes or cholesterol test, they can use the office-based version of Globorisk which is based on body weight and height instead.</p>
-<div id="installation" class="section level2">
-<h2 class="hasAnchor">
-<a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of globorisk from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<div class="section level2">
+<h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
+</h2>
+<p>You can install the released version of globorisk from <a href="https://CRAN.R-project.org" class="external-link">CRAN</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"globorisk"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"globorisk"</span><span class="op">)</span></code></pre></div>
 <p>You can also install the latest development version from the Github repository.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.package("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu">install_github</span><span class="op">(</span><span class="st">"boyercb/globorisk"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="usage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#usage" class="anchor"></a>Usage</h2>
+<div class="section level2">
+<h2 id="usage">Usage<a class="anchor" aria-label="anchor" href="#usage"></a>
+</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/boyercb/globorisk">globorisk</a></span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/boyercb/globorisk" class="external-link">globorisk</a></span><span class="op">)</span>
 
 <span class="co"># estimate 10-year risk of CVD using laboratory calculator </span>
 <span class="fu"><a href="reference/globorisk.html">globorisk</a></span><span class="op">(</span>
@@ -150,66 +145,78 @@
 
 <span class="co"># also works on vectors</span>
 <span class="fu"><a href="reference/globorisk.html">globorisk</a></span><span class="op">(</span>
-  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
-  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">52</span>, <span class="fl">60</span>, <span class="fl">65</span><span class="op">)</span>,
-  sbp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">160</span>, <span class="fl">170</span><span class="op">)</span>,
-  smk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
-  bmi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span>,
-  iso <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"AFG"</span>, <span class="st">"AFG"</span>, <span class="st">"USA"</span><span class="op">)</span>,
-  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2000</span>, <span class="fl">2020</span><span class="op">)</span>,
+  sex <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">1</span>, <span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
+  age <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">52</span>, <span class="fl">60</span>, <span class="fl">65</span><span class="op">)</span>,
+  sbp <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">140</span>, <span class="fl">160</span>, <span class="fl">170</span><span class="op">)</span>,
+  smk <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">1</span><span class="op">)</span>,
+  bmi <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">20</span>, <span class="fl">30</span>, <span class="fl">40</span><span class="op">)</span>,
+  iso <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"AFG"</span>, <span class="st">"AFG"</span>, <span class="st">"USA"</span><span class="op">)</span>,
+  year <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2000</span>, <span class="fl">2020</span><span class="op">)</span>,
   version <span class="op">=</span> <span class="st">"office"</span>,
   type <span class="op">=</span> <span class="st">"risk"</span>
 <span class="op">)</span>
 </code></pre></div>
 </div>
 </div>
-<div id="references" class="section level1">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
-<p>Ueda, Peter, Mark Woodward, Yuan Lu, Kaveh Hajifathalian, Rihab Al-Wotayan, Carlos A. Aguilar-Salinas, Alireza Ahmadvand, et al. “Laboratory-Based and Office-Based Risk Scores and Charts to Predict 10-Year Risk of Cardiovascular Disease in 182 Countries: A Pooled Analysis of Prospective Cohorts and Health Surveys.” The Lancet Diabetes &amp; Endocrinology 5, no. 3 (March 1, 2017): 196–213. <a href="https://doi.org/10.1016/S2213-8587(17)30015-3" class="uri">https://doi.org/10.1016/S2213-8587(17)30015-3</a>.</p>
-<p>Hajifathalian, Kaveh, Peter Ueda, Yuan Lu, Mark Woodward, Alireza Ahmadvand, Carlos A Aguilar-Salinas, Fereidoun Azizi, et al. “A Novel Risk Score to Predict Cardiovascular Disease Risk in National Populations (Globorisk): A Pooled Analysis of Prospective Cohorts and Health Examination Surveys.” The Lancet Diabetes &amp; Endocrinology 3, no. 5 (May 1, 2015): 339–55. <a href="https://doi.org/10.1016/S2213-8587(15)00081-9" class="uri">https://doi.org/10.1016/S2213-8587(15)00081-9</a>.</p>
+<div class="section level1">
+<h1 id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h1>
+<p>Ueda, Peter, Mark Woodward, Yuan Lu, Kaveh Hajifathalian, Rihab Al-Wotayan, Carlos A. Aguilar-Salinas, Alireza Ahmadvand, et al. “Laboratory-Based and Office-Based Risk Scores and Charts to Predict 10-Year Risk of Cardiovascular Disease in 182 Countries: A Pooled Analysis of Prospective Cohorts and Health Surveys.” The Lancet Diabetes &amp; Endocrinology 5, no. 3 (March 1, 2017): 196–213. <a href="https://doi.org/10.1016/S2213-8587(17)30015-3" class="external-link uri">https://doi.org/10.1016/S2213-8587(17)30015-3</a>.</p>
+<p>Hajifathalian, Kaveh, Peter Ueda, Yuan Lu, Mark Woodward, Alireza Ahmadvand, Carlos A Aguilar-Salinas, Fereidoun Azizi, et al. “A Novel Risk Score to Predict Cardiovascular Disease Risk in National Populations (Globorisk): A Pooled Analysis of Prospective Cohorts and Health Examination Surveys.” The Lancet Diabetes &amp; Endocrinology 3, no. 5 (May 1, 2015): 339–55. <a href="https://doi.org/10.1016/S2213-8587(15)00081-9" class="external-link uri">https://doi.org/10.1016/S2213-8587(15)00081-9</a>.</p>
 </div>
 
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li>Browse source code at <br><a href="https://github.com/boyercb/globorisk/">https://​github.com/​boyercb/​globorisk/​</a>
-</li>
-<li>Report a bug at <br><a href="https://github.com/boyercb/globorisk/issues">https://​github.com/​boyercb/​globorisk/​issues</a>
-</li>
+<li><a href="https://github.com/boyercb/globorisk/" class="external-link">Browse source code</a></li>
+<li><a href="https://github.com/boyercb/globorisk/issues" class="external-link">Report a bug</a></li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
-<li><small><a href="https://opensource.org/licenses/mit-license.php">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
+<li><small><a href="https://opensource.org/licenses/mit-license.php" class="external-link">MIT</a> + file <a href="LICENSE-text.html">LICENSE</a></small></li>
 </ul>
 </div>
-<div class="developers">
-<h2>Developers</h2>
+
+
+<div class="citation">
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li>Christopher Boyer <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1101-2045" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Goodarz Danaei <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2456-5463" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Kaveh Hajifathalian <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3931-2576" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Peter Ueda <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3275-8743" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
-<li>Rodrigo M. Carrillo Larco <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2090-1856" target="orcid.widget" aria-label="ORCID"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li><a href="authors.html#citation">Citing globorisk</a></li>
 </ul>
 </div>
+
+<div class="developers">
+<h2 data-toc-skip>Developers</h2>
+<ul class="list-unstyled">
+<li>Christopher Boyer <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-1101-2045" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Goodarz Danaei <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0003-2456-5463" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Kaveh Hajifathalian <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3931-2576" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Peter Ueda <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-3275-8743" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Rodrigo M. Carrillo Larco <br><small class="roles"> Author </small> <a href="https://orcid.org/0000-0002-2090-1856" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+</ul>
+</div>
+
+
 
   </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Christopher Boyer, Goodarz Danaei, Kaveh Hajifathalian, Peter Ueda, Rodrigo M. Carrillo Larco.</p>
+  <p></p>
+<p>Developed by Christopher Boyer, Goodarz Danaei, Kaveh Hajifathalian, Peter Ueda, Rodrigo M. Carrillo Larco.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>
@@ -217,6 +224,8 @@
 
   
 
+
+  
 
   </body>
 </html>
