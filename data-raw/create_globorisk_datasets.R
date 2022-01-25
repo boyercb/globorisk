@@ -1,7 +1,7 @@
 library(haven)
 library(tidyverse)
 
-globorisk_path <- "../hic-lipid-treatment/1_code/globorisk/"
+globorisk_path <- "data-raw/_data/"
 
 
 # Coefficients ------------------------------------------------------------
@@ -10,6 +10,8 @@ globorisk_path <- "../hic-lipid-treatment/1_code/globorisk/"
 coef_lab <- read_stata(paste0(globorisk_path, "coeff_lab.dta"))
 coef_fatal <- read_stata(paste0(globorisk_path, "coeff_fatal.dta"))
 coef_office <- read_stata(paste0(globorisk_path, "coeff_office.dta"))
+coef_lac_lab <- read_csv(paste0(globorisk_path, "coeff_lac_lab.csv"))
+coef_lac_office <- read_csv(paste0(globorisk_path, "coeff_lac_office.csv"))
 
 # drop Stata rowname variable
 coef_lab[["_rowname"]] <- NULL
@@ -17,12 +19,28 @@ coef_fatal[["_rowname"]] <- NULL
 coef_office[["_rowname"]] <- NULL
 
 # bind into one dataset
-coefs <- bind_rows(coef_lab, coef_fatal, coef_office, .id = "type")
+coefs <-
+  bind_rows(coef_lab,
+            coef_fatal,
+            coef_office,
+            coef_lac_lab,
+            coef_lac_office,
+            .id = "type")
+
+coefs$lac <- case_when(
+  coefs$type == 1 ~ 0,
+  coefs$type == 2 ~ 0,
+  coefs$type == 3 ~ 0,
+  coefs$type == 4 ~ 1,
+  coefs$type == 5 ~ 1
+)
 
 coefs$type <- case_when(
   coefs$type == 1 ~ "lab",
   coefs$type == 2 ~ "fatal",
-  coefs$type == 3 ~ "office"
+  coefs$type == 3 ~ "office",
+  coefs$type == 4 ~ "lab",
+  coefs$type == 5 ~ "office"
 )
 
 

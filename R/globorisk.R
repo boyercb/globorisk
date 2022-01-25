@@ -3,7 +3,7 @@
 #' Computes the 10-year risk of CVD using globorisk, a prediction model for the
 #' risk of cardiovascular disease in 182 countries.
 #'
-#' @param sex biological sex (0 = man, 1 = woman)
+#' @param sex patient sex (0 = man, 1 = woman)
 #' @param age patient age (years)
 #' @param sbp systolic blood pressure (mmHg)
 #' @param tc total cholesterol (mmol/L)
@@ -15,6 +15,7 @@
 #' @param time follow up time (default is 10-years)
 #' @param version calculator version, options are 'lab', 'office', or 'fatal'
 #' @param type output type, options are 'risk', 'survival', or 'all'
+#' @param updated_lac use updated risk equations for LAC countries?
 #'
 #' @return If type = 'risk' output is a vector with estimated 10-year risk for
 #'   CVD, if type = 'survival' output is a vector with estimated 10-year
@@ -38,6 +39,22 @@
 #'   version = "lab",
 #'   type = "risk"
 #' )
+#'
+#' # globorisk LAC test
+#' globorisk(
+#'   sex = c(1, 0, 0),
+#'   age = c(52, 60, 65),
+#'   sbp = c(140, 160, 170),
+#'   tc = c(4.5, 5, 5),
+#'   dm = c(1, 1, 1),
+#'   smk = c(0, 1, 1),
+#'   iso = c("ARG", "BLZ", "CHL"),
+#'   year = c(2000, 2000, 2020),
+#'   version = "lab",
+#'   type = "risk",
+#'   updated_lac = TRUE
+#' )
+#'
 #' @references
 #' Ueda, Peter, Mark Woodward, Yuan Lu, Kaveh Hajifathalian, Rihab Al-Wotayan,
 #' Carlos A. Aguilar-Salinas, Alireza Ahmadvand, et al. "Laboratory-Based and
@@ -65,7 +82,8 @@ globorisk <- function(
   year,
   time = 10,
   version = c('lab', 'office', 'fatal'),
-  type = 'risk'
+  type = 'risk',
+  updated_lac = FALSE
 ) {
 
   # check arguments
@@ -113,14 +131,22 @@ globorisk <- function(
     stop("Invalid type argument, must be 'risk', 'survival', or 'all'")
   }
 
+  LACs <- c("ARG", "ATG", "BHS", "BLZ", "BOL", "BRA", "BRB", "CHL", "COL",
+            "CRI", "CUB", "DOM", "ECU", "GRD", "GTM", "GUY", "HND", "HTI",
+            "JAM", "LCA", "MEX", "NIC", "PAN", "PER", "PRY", "SLV", "SUR",
+            "TTO", "URY", "VCT", "VEN")
+
   if (version == 'lab') {
-    coefs <- subset(coefs, type == "lab")
+    coefs_l <- subset(coefs, type == "lab" & lac == 1)
+    coefs <- subset(coefs, type == "lab" & lac == 0)
     cvdr <- subset(cvdr, type == "FNF")
   } else if (version == 'office') {
-    coefs <- subset(coefs, type == "office")
+    coefs_l <- subset(coefs, type == "office" & lac == 1)
+    coefs <- subset(coefs, type == "office" & lac == 0)
     cvdr <- subset(cvdr, type == "FNF")
   } else if (version == 'fatal') {
-    coefs <- subset(coefs, type == "lab")
+    coefs_l <- subset(coefs, type == "fatal" & lac == 0)
+    coefs <- subset(coefs, type == "fatal" & lac == 0)
     cvdr <- subset(cvdr, type == "F")
   } else {
     stop("Invalid version argument, must be 'lab', 'office', or 'fatal'!")
@@ -189,6 +215,21 @@ globorisk <- function(
           (d$age + t) * d$dm_c * coefs[["tvc_dm"]] +
           (d$age + t) * d$smk_c * coefs[["tvc_smok"]]
       )
+
+      # use updated risk equations for LAC countries if desired
+      if (updated_lac & version != "fatal") {
+        ind <- which(d$iso %in% LACs)
+
+        d[ind, paste0('hrC_', t)] <- exp(
+          d$sbp_c[ind] * coefs_l[["main_sbpc"]] +
+            d$tc_c[ind] * coefs_l[["main_tcc"]] +
+            d$dm_c[ind] * coefs_l[["main__Idm_1"]] +
+            d$smk_c[ind] * coefs_l[["main_smok"]] +
+            d$sex[ind] * d$dm_c[ind] * coefs_l[["main_sexdm"]] +
+            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sexsmok"]] +
+            (d$age[ind] + t) * d$sbp_c[ind] * coefs_l[["tvc_sbpc"]]
+        )
+      }
     } else {
       # version with only office measures
       d[[paste0('hrC_', t)]] <- exp(
@@ -201,6 +242,19 @@ globorisk <- function(
           (d$age + t) * d$bmi_c * coefs[["tvc_bmi5c"]]
         )
 
+      # use updated risk equations for LAC countries if desired
+      if (updated_lac) {
+        ind <- which(d$iso %in% LACs)
+
+        d[ind, paste0('hrC_', t)] <- exp(
+          d$sbp_c[ind] * coefs_l[["main_sbpc"]] +
+            d$bmi_c[ind] * coefs_l[["main_bmi5c"]] +
+            d$smk_c[ind] * coefs_l[["main_smokc"]] +
+            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sexsmokc"]] +
+            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sbpsexc"]] +
+            (d$age[ind] + t) * d$sbp_c[ind] * coefs_l[["tvc_sbpc"]]
+        )
+      }
     }
 
     # calculate the hazard rate by multiplying by base rate
@@ -231,3 +285,4 @@ globorisk <- function(
   return(ret)
 
 }
+
