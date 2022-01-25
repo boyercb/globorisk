@@ -19,7 +19,8 @@ based on body weight and height instead.
 You can install the released version of globorisk from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("globorisk")
+# not approved yet
+# install.packages("globorisk")
 ```
 
 You can also install the latest development version from the Github repository.
