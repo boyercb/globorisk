@@ -99,6 +99,10 @@ globorisk <- function(
     stop("Invalid values in age variable, must be greater than 40!")
   }
 
+  if (any(age > 80 & !is.na(age))) {
+    warning("Globorisk is not calibrated for subjects over 80 years of age at baseline! These will be returned as NAs.")
+  }
+
   if (any(!dm %in% c(0, 1) & !is.na(dm))) {
     stop("Invalid values in dm variable, must be 0 = no and 1 = yes!")
   }
