@@ -154,7 +154,17 @@ globorisk <- function(
 
   # create data frame
   d <- data.frame(
-    id = 1:length(iso),
+    id = 1:pmax(
+      length(sex),
+      length(age),
+      length(sbp),
+      length(tc),
+      length(dm),
+      length(smk),
+      length(bmi),
+      length(iso),
+      length(year)
+    ),
     iso = toupper(iso),
     sex = as.integer(sex),
     year = as.integer(year),
@@ -204,55 +214,55 @@ globorisk <- function(
     if (version == "lab" | version == "fatal") {
       # version with laboratory measures
       d[[paste0('hrC_', t)]] <- exp(
-        d$sbp_c * coefs[["main_sbpc"]] +
-          d$tc_c * coefs[["main_tcc"]] +
-          d$dm_c * coefs[["main__Idm_1"]] +
-          d$smk_c * coefs[["main_smok"]] +
-          d$sex * d$dm_c * coefs[["main_sexdm"]] +
-          d$sex * d$smk_c * coefs[["main_sexsmok"]] +
-          (d$age + t) * d$sbp_c * coefs[["tvc_sbpc"]] +
-          (d$age + t) * d$tc_c * coefs[["tvc_tcc"]] +
-          (d$age + t) * d$dm_c * coefs[["tvc_dm"]] +
-          (d$age + t) * d$smk_c * coefs[["tvc_smok"]]
+        d[['sbp_c']] * coefs[["main_sbpc"]] +
+          d[['tc_c']] * coefs[["main_tcc"]] +
+          d[['dm_c']] * coefs[["main__Idm_1"]] +
+          d[['smk_c']] * coefs[["main_smok"]] +
+          d[['sex']] * d[['dm_c']] * coefs[["main_sexdm"]] +
+          d[['sex']] * d[['smk_c']] * coefs[["main_sexsmok"]] +
+          (d[['age']] + t) * d[['sbp_c']] * coefs[["tvc_sbpc"]] +
+          (d[['age']] + t) * d[['tc_c']] * coefs[["tvc_tcc"]] +
+          (d[['age']] + t) * d[['dm_c']] * coefs[["tvc_dm"]] +
+          (d[['age']] + t) * d[['smk_c']] * coefs[["tvc_smok"]]
       )
 
       # use updated risk equations for LAC countries if desired
       if (updated_lac & version != "fatal") {
-        ind <- which(d$iso %in% LACs)
+        ind <- which(d[['iso']] %in% LACs)
 
         d[ind, paste0('hrC_', t)] <- exp(
-          d$sbp_c[ind] * coefs_l[["main_sbpc"]] +
-            d$tc_c[ind] * coefs_l[["main_tcc"]] +
-            d$dm_c[ind] * coefs_l[["main__Idm_1"]] +
-            d$smk_c[ind] * coefs_l[["main_smok"]] +
-            d$sex[ind] * d$dm_c[ind] * coefs_l[["main_sexdm"]] +
-            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sexsmok"]] +
-            (d$age[ind] + t) * d$sbp_c[ind] * coefs_l[["tvc_sbpc"]]
+          d[['sbp_c']][ind] * coefs_l[["main_sbpc"]] +
+            d[['tc_c']][ind] * coefs_l[["main_tcc"]] +
+            d[['dm_c']][ind] * coefs_l[["main__Idm_1"]] +
+            d[['smk_c']][ind] * coefs_l[["main_smok"]] +
+            d[['sex']][ind] * d[['dm_c']][ind] * coefs_l[["main_sexdm"]] +
+            d[['sex']][ind] * d[['smk_c']][ind] * coefs_l[["main_sexsmok"]] +
+            (d[['age']][ind] + t) * d[['sbp_c']][ind] * coefs_l[["tvc_sbpc"]]
         )
       }
     } else {
       # version with only office measures
       d[[paste0('hrC_', t)]] <- exp(
-        d$sbp_c * coefs[["main_sbpc"]] +
-          d$bmi_c * coefs[["main_bmi5c"]] +
-          d$smk_c * coefs[["main_smokc"]] +
-          d$sex * d$smk_c * coefs[["main_sexsmokc"]] +
-          (d$age + t) * d$sbp_c * coefs[["tvc_sbpc"]] +
-          (d$age + t) * d$smk_c * coefs[["tvc_smokc"]] +
-          (d$age + t) * d$bmi_c * coefs[["tvc_bmi5c"]]
+        d[['sbp_c']] * coefs[["main_sbpc"]] +
+          d[['bmi_c']] * coefs[["main_bmi5c"]] +
+          d[['smk_c']] * coefs[["main_smokc"]] +
+          d[['sex']] * d[['smk_c']] * coefs[["main_sexsmokc"]] +
+          (d[['age']] + t) * d[['sbp_c']] * coefs[["tvc_sbpc"]] +
+          (d[['age']] + t) * d[['smk_c']] * coefs[["tvc_smokc"]] +
+          (d[['age']] + t) * d[['bmi_c']] * coefs[["tvc_bmi5c"]]
         )
 
       # use updated risk equations for LAC countries if desired
       if (updated_lac) {
-        ind <- which(d$iso %in% LACs)
+        ind <- which(d[['iso']] %in% LACs)
 
         d[ind, paste0('hrC_', t)] <- exp(
-          d$sbp_c[ind] * coefs_l[["main_sbpc"]] +
-            d$bmi_c[ind] * coefs_l[["main_bmi5c"]] +
-            d$smk_c[ind] * coefs_l[["main_smokc"]] +
-            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sexsmokc"]] +
-            d$sex[ind] * d$smk_c[ind] * coefs_l[["main_sbpsexc"]] +
-            (d$age[ind] + t) * d$sbp_c[ind] * coefs_l[["tvc_sbpc"]]
+          d[['sbp_c']][ind] * coefs_l[["main_sbpc"]] +
+            d[['bmi_c']][ind] * coefs_l[["main_bmi5c"]] +
+            d[['smk_c']][ind] * coefs_l[["main_smokc"]] +
+            d[['sex']][ind] * d[['smk_c']][ind] * coefs_l[["main_sexsmokc"]] +
+            d[['sex']][ind] * d[['smk_c']][ind] * coefs_l[["main_sbpsexc"]] +
+            (d[['age']][ind] + t) * d[['sbp_c']][ind] * coefs_l[["tvc_sbpc"]]
         )
       }
     }
