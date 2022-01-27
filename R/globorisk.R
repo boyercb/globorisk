@@ -158,17 +158,6 @@ globorisk <- function(
 
   # create data frame
   d <- data.frame(
-    id = 1:pmax(
-      length(sex),
-      length(age),
-      length(sbp),
-      length(tc),
-      length(dm),
-      length(smk),
-      length(bmi),
-      length(iso),
-      length(year)
-    ),
     iso = toupper(iso),
     sex = as.integer(sex),
     year = as.integer(year),
@@ -181,6 +170,8 @@ globorisk <- function(
     bmi = bmi / 5,
     stringsAsFactors = FALSE
   )
+
+  d$id <- 1:nrow(d)
 
   # use time minus one
   time <- time - 1
