@@ -1,6 +1,6 @@
 Package: globorisk
 Title: globorisk: Global CVD Risk Calculator
-Version: 1.0.1
+Version: 1.0.2
 Authors@R: c(
     person(given = "Christopher",
            family = "Boyer",
