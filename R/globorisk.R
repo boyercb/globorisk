@@ -256,7 +256,7 @@ globorisk <- function(
             d[['bmi_c']][ind] * coefs_l[["main_bmi5c"]] +
             d[['smk_c']][ind] * coefs_l[["main_smokc"]] +
             d[['sex']][ind] * d[['smk_c']][ind] * coefs_l[["main_sexsmokc"]] +
-            d[['sex']][ind] * d[['smk_c']][ind] * coefs_l[["main_sbpsexc"]] +
+            d[['sex']][ind] * d[['sbp_c']][ind] * coefs_l[["main_sbpsexc"]] +
             (d[['age']][ind] + t) * d[['sbp_c']][ind] * coefs_l[["tvc_sbpc"]]
         )
       }
